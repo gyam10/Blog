@@ -1,0 +1,22 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.navbar a.logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.navbar nav {
+  display: flex;
+  gap: 10px;
+}
