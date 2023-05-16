@@ -4,7 +4,7 @@ const TokenModel = require("../model/token.model");
 
 dotenv.config();
 
-export const authenicateToken = (req, res, next) => {
+const authenticateToken = (req, res, next) => {
   const authHeader = req.header["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   if (token == null) {
@@ -21,7 +21,7 @@ export const authenicateToken = (req, res, next) => {
   });
 };
 
-export const createNewToken = async (req, res, next) => {
+const createNewToken = async (req, res, next) => {
   const refreshToken = req.body.token.split(" ")[1];
   if (!refreshToken) {
     return res.status(401).json({ msg: "Refresh token is missing" });
@@ -41,4 +41,9 @@ export const createNewToken = async (req, res, next) => {
 
     return response.status(200).json({ accessToken: accessToken });
   });
+};
+
+module.exports = {
+  authenticateToken,
+  createNewToken,
 };

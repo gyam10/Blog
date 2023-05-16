@@ -1,6 +1,6 @@
 const CommentModel = require("../model/comment.model");
 
-export const newComment = async (req, res, next) => {
+const newComment = async (req, res, next) => {
   try {
     const comment = await new CommentModel(req.body);
     comment.save();
@@ -17,7 +17,7 @@ export const newComment = async (req, res, next) => {
   }
 };
 
-export const getComments = async (req, res, next) => {
+const getComments = async (req, res, next) => {
   try {
     const comment = await CommentModel.find({ postId: req.params.id });
     res.json({
@@ -33,7 +33,7 @@ export const getComments = async (req, res, next) => {
   }
 };
 
-export const deleteComment = async (req, res, next) => {
+const deleteComment = async (req, res, next) => {
   try {
     const comment = await CommentModel.findById(req.params.id);
     await comment.delete();
@@ -49,4 +49,10 @@ export const deleteComment = async (req, res, next) => {
       msg: error,
     });
   }
+};
+
+module.exports = {
+  newComment,
+  getComments,
+  deleteComment,
 };

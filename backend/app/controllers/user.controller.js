@@ -7,27 +7,34 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-export const register = async (req, res, next) => {
+const register = async (req, res, next) => {
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    // console.log("here");
+    let data = req.body;
+    // console.log(data);
+    const hashedPassword = bcrypt.hashSync(data.password, 10);
+    console.log(hashedPassword);
     const userData = {
-      username: req.body.username,
-      name: req.body.name,
+      username: data.username,
+      name: data.name,
       password: hashedPassword,
     };
     const newUser = new UserModel(userData);
-    let result = await newUser.save();
+    console.log(newUser);
+    await newUser.save();
     res.json({
-      result: result,
       msg: "User created",
       status: true,
     });
   } catch (error) {
-    next({ error });
+    next({
+      status: 500,
+      msg: "Error while signing up user",
+    });
   }
 };
 
-export const login = async (req, res, next) => {
+const login = async (req, res, next) => {
   let user = await UserModel.findOne({
     username: req.body.username,
     password: hashpassword,
@@ -36,7 +43,7 @@ export const login = async (req, res, next) => {
     return response.status(400).json({ msg: "user does not exist" });
   }
   try {
-    let userCheck = await bcrypt.compare(req.body.password, user.password);
+    let userCheck = bcrypt.compareSync(req.body.password, user.password);
     if (userCheck) {
       const accessToken = jwt.sign(
         user.toJSON(),
@@ -69,11 +76,17 @@ export const login = async (req, res, next) => {
   }
 };
 
-export const logoutuser = async (req, res, next) => {
+const logoutUser = async (req, res, next) => {
   const token = req.body.token;
   await TokenModel.deleteOne({ token: token });
   res.json({
     staus: true,
     msg: "Logout successfull.",
   });
+};
+
+module.exports = {
+  login,
+  register,
+  logoutUser,
 };

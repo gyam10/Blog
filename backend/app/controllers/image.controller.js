@@ -13,7 +13,7 @@ connect.once("open", () => {
   gfs.connection("fs");
 });
 
-export const uploadImage = (req, res, next) => {
+const uploadImage = (req, res, next) => {
   if (!req.file) {
     return res.status(404).json("File not found");
   }
@@ -25,7 +25,7 @@ export const uploadImage = (req, res, next) => {
   });
 };
 
-export default getImage = async (req, res, next) => {
+const getImage = async (req, res, next) => {
   try {
     const file = await gfs.files.findOne({
       filename: req.params.filename,
@@ -39,3 +39,5 @@ export default getImage = async (req, res, next) => {
     });
   }
 };
+
+module.exports = { uploadImage, getImage };
