@@ -1,10 +1,8 @@
 const mongoose = require("mongoose");
 
 const Connection = async (username, password) => {
-  // const dbUrl = "mongodb://127.0.0.1:27017/blog";
+  const dbUrl = "mongodb://127.0.0.1:27017/blog";
 
-  const dbUrl =
-    "mongodb+srv://test:test123@cluster0.lls5sy9.mongodb.net/blog?retryWrites=true&w=majority";
   try {
     await mongoose.connect(dbUrl, { useNewUrlPraser: true });
     console.log("Database connected successfully");
